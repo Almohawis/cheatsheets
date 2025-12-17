@@ -343,8 +343,6 @@ docker rm Container-Name-Or-ID
 
 عدينا مشوار طويل ولا بقي الا القليل "تقريبا" -__- 
 
-
-
 على حسب احتياجك تنشئ ملف دوكر وتسجل بداخلة اعداداته
 
 يجب ان يكون اسم الملف هكذا
@@ -470,8 +468,6 @@ BaseImage = الصورة اللي تبني عليها
 
 `/TestDocker`
 
- 
-
 #### EXPOSE
 
 الآن لتحديد البورت نستخدم
@@ -584,8 +580,6 @@ run TEST "My Name Is Sulaiman ALmohawis"
 
 هذا مثال بسيط وقس على ذلك الفوائد الممكنه
 
-
-
 وإستخدامها الآخر هو لبقاء الحاوية شغالة
 
 مثلا ابي اجهز صورة لنظام ابنتو لينكس وتكون محدثه ومثبت عليها برنامج
@@ -624,8 +618,6 @@ run TEST "My Name Is Sulaiman ALmohawis"
 وش السبب؟ فكرة الحاوية تشغلك برنامج واحد وبعد الانتهاء منه تطفأ
 
 والحاوية بحالتنا هذي بدون برنامج شغال فلذلك لازم نكتب هذا الأمر
-
-
 
 مثلا مع انجنكس ويب سيرفر
 
@@ -748,8 +740,6 @@ run TEST "My Name Is Sulaiman ALmohawis"
 
 اقدر اني ابني عليها حاويات
 
-
-
 إذا حبيت انك تنشئ من الحاوية صورة وتحفظ بملف نستخدم امر
 
 `docker export Container-name > File-Name`
@@ -766,4 +756,100 @@ run TEST "My Name Is Sulaiman ALmohawis"
 
 `My-Nginx-Settings.tar`
 
-   
+ولأجل اضافة الصورة نستخدم امر
+
+`docker import -c "CMD" FILENAME image-name`
+
+مثلا
+
+    docker import -c 'CMD["nginx", "-g" , "daemon off;"] 'My-Nginx-Settings.tar mr-sulaiman-nginx-web-server
+
+ليه استخدمنا خيار
+
+`docker import -c 'CMD["nginx", "-g", "daemon off;"]'`
+
+لأننا اذا استدعينا الصورة تستدعا بدون امر
+
+`CMD`
+
+المتواجد في 
+
+`Dockerfile`
+
+## اضافة إصدار الصورة
+
+من الممكن ان يكون لديك اكثر من اصدار لصورة واحدة فكيف تتعامل مع هذا الشي؟
+
+نستخدم مار
+
+### docker tag
+
+كيفية استعمالة
+
+    docker tag image-name image-name:tag
+
+مثال
+
+    docker tag my-web-site:latest my-web-site:v1
+
+كذا اذا نفذنا امر
+
+`docker ps`
+
+بيظهر لنا اصدار الصورة
+
+`my-web-site:v1`
+
+# ادارة دوكر بشكل عام
+
+لإدارة دوكر نستخدم امر
+
+## docker system
+
+وتأتي من بعده الخيارات
+
+### docker system df
+
+لإظهار استهلاك دوكر من المساحة
+
+مثال
+
+    docker system df
+
+### docker system info
+
+لإظهار معلومات عامة عن استخدام دوكر حاليا
+
+مثال
+
+    docker system info
+
+### docker system prune
+
+الأمر هذا يأتي بعدة خيارات
+
+الأول
+
+    docker system prune
+
+يسحذف كل من
+
+- الحاويات المتوقفه
+
+- الشبكات الغير مستخدمه
+
+- الصور التي ليس عليها اصدار
+
+ولكن اذا حبيت ان تحذف كل شيء في دوكر بشكل نهائي
+
+    docker system prune -a
+
+بالمختصر سيحذف كل شيء الا الشغال
+
+مثلا لديك حاوية شغالة فماراح تنحذف ولا بتنحذف الصورة المبنية عليها الحاوية
+
+إذا حبيت تحذف بدون ما يطلب منك تأكيد
+
+    docker system prune -a -f
+
+مفيدة لمبرمجين الأدوات
