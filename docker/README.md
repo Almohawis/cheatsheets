@@ -780,7 +780,7 @@ run TEST "My Name Is Sulaiman ALmohawis"
 
 من الممكن ان يكون لديك اكثر من اصدار لصورة واحدة فكيف تتعامل مع هذا الشي؟
 
-نستخدم مار
+نستخدم أمر
 
 ### docker tag
 
@@ -853,3 +853,133 @@ run TEST "My Name Is Sulaiman ALmohawis"
     docker system prune -a -f
 
 مفيدة لمبرمجين الأدوات
+
+# ادارة البيانات
+
+## docker volumes
+
+لها استخدامان
+
+الأول:
+
+مشاركة الملفات و مزامنتها مع اكثر من حاوية وابقاءها حتى بعد حذف الحاوية
+
+الثاني:
+
+ربط الملفات المتواجده في نظامك مع الحاوية
+
+شرح المثال الأول
+
+عندك حاوية أ و حاوية ب
+
+اذا اضفت ملف في حاوية أ ينضاف ايضا في حاوية ب
+
+وإذا غيرت بالملف في حاوية ب بيتغير في حاوية أ
+
+شرح المثال الثاني
+
+عندك مجلد في جهازك تحت اسم
+
+`web-files`
+
+تشاركة مع الحاوية وكل ما عدلت داخل هذا المجلد من جهازك يتعدل داخل الحاوية
+
+### docker volume create
+
+أمر انشاء
+
+استخدامه
+
+    docker volume create VOLUME-NAME
+
+مثال
+
+    docker volume create sharing-files
+
+### docker volume ls
+
+لإستعراض
+
+    docker volume ls
+
+المخرج
+
+| DRIVER | VLUME NAME    |
+| ------ | ------------- |
+| local  | sharing-files |
+
+### docker volume rm
+
+للحذف
+
+مثال
+
+    docker volume rm sharing-files
+
+
+
+### docker volume inspect
+
+يظهر لك المعلومات
+
+طريقة الاستخدام
+
+    docker inspect VOLUME-NAME
+
+مثال
+
+    docker volume inspect sharing-files
+
+في خانة `Mountpoint` توجد البيانات
+
+### docker volume prune
+
+لحذف اي فوليوم غير مستخدم
+
+### docker volume prune -a
+
+لحذف جميع الفوليومز
+
+
+
+الآن للمثال الأول
+
+    docker run -d -v sharing-files:/root/ --name sharing-files-1
+    
+    docker run -d -v sharing-files:/root/ --name sharing-files-2
+
+اي تغير داخل مجلد روت بيتغير في كل الحاويات التي اضيف لها هذا الخيار
+
+وعادي تخدد اي مسار انا حطيت روت كمثال سهل للي بيطبق عملي
+
+واذا حذفت كل الحاويات بتبقا البيانات محفوظة وتقدر تربطها بأي حاوية مستقبلا
+
+اما الآن المثال الثاني الخاص بمشاركة الملفات من جهازك الى الحاوية بشكل مباشر
+
+مثلا عندك مجلد
+
+`web-files`
+
+داخل هذا المجلد ملفات موقعك وتبي تربط المجلد بالحاوية
+
+    docker run -d -v FOLDER-PATH:CONTAINER-PATH --name mywebsite nginx
+
+FOLDER-PATH = مسار المجلد بجهازك
+
+CONTAINER-PATH = المسار داخل الحاوية
+
+مثال
+
+    docker run -d -v /home/almohawis/web-files/:/usr/share/nginx/html --name mywebsite nginx
+
+كذا اي تعديل على الملفات من جهازك بينتقل الى الحاوية
+
+وأيضا اي تعديل بالملفات من الحاوية بينتقل الى جهازك
+
+معلومة اضافية
+
+`/usr/share/nginx/html` = وضعناه لأنه بحاوية انجنكس الافتراضية هذا مسار الموقع
+
+لكنه اذا مثلا كان من ابنتو فبيكون في
+
+`/var/www/html/`
