@@ -916,8 +916,6 @@ run TEST "My Name Is Sulaiman ALmohawis"
 
     docker volume rm sharing-files
 
-
-
 ### docker volume inspect
 
 يظهر لك المعلومات
@@ -939,8 +937,6 @@ run TEST "My Name Is Sulaiman ALmohawis"
 ### docker volume prune -a
 
 لحذف جميع الفوليومز
-
-
 
 الآن للمثال الأول
 
@@ -983,3 +979,21 @@ CONTAINER-PATH = المسار داخل الحاوية
 لكنه اذا مثلا كان من ابنتو فبيكون في
 
 `/var/www/html/`
+
+# الشبكات
+
+## docker network
+
+لإنشاء الشبكات
+
+docker network create
+
+docker network ls
+
+docker network rm
+
+docker network inspect
+
+docker network prune
+
+docker network connect
