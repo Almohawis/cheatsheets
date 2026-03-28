@@ -12,6 +12,16 @@
 
 NULL - NOT NULL - حقل فاضي او حقل غير فاضي
 
+# Create User إنشاء مستخدم
+
+    CREATE USER 'username'@'localhost' IDENTIFIED BY 'password';
+    
+    GRANT ALL PRIVILEGES ON database_name.* TO 'username'@'localhost';
+    OR
+    GRANT ALL PRIVILEGES ON *.* TO 'username'@'localhost';
+    
+    FLUSH PRIVILEGES; 
+
 ## Create DataBase انشاء قاعدة بيانات
 
     CREATE DATABASE name CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;
